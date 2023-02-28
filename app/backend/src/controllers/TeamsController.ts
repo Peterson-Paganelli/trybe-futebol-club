@@ -5,9 +5,9 @@ import TeamService from '../services/TeamService';
 class TeamsController {
   private _teamService = new TeamService();
 
-  async getAllTeams(req: Request, res: Response): Promise<void> {
-    const { type, result } = await this._teamService.getAll();
-    res.status(type).json(result);
+  async getAllTeams(_req: Request, res: Response): Promise<void> {
+    const { status, response } = await this._teamService.getAll();
+    res.status(status).json(response);
   }
 }
 
