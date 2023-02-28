@@ -1,4 +1,4 @@
-import { STRING, Model, INTEGER } from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
 class Teams extends Model {
@@ -8,11 +8,11 @@ class Teams extends Model {
 
 Teams.init({
   id: {
-    type: INTEGER,
+    type: DataTypes.INTEGER,
     primaryKey: true,
   },
   teamName: {
-    type: STRING(30),
+    type: DataTypes.STRING(30),
     allowNull: false,
   },
 }, {
@@ -21,16 +21,5 @@ Teams.init({
   modelName: 'teams',
   timestamps: false,
 });
-
-/**
-  * `Workaround` para aplicar as associations em TS:
-  * Associations 1:N devem ficar em uma das instâncias de modelo
-  * */
-
-// OtherModel.belongsTo(Example, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
-// OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
-
-// Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
-// Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
 export default Teams;
