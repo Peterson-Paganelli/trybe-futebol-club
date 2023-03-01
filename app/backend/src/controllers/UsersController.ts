@@ -9,6 +9,11 @@ class UsersController {
     const { status, response } = await this._userService.postLogin(req.body);
     return res.status(status).json(response);
   }
+
+  async getRole(req: Request, res: Response) {
+    const { status, response } = await this._userService.getRole(req.headers.authorization);
+    return res.status(status).json(response);
+  }
 }
 
 export default UsersController;

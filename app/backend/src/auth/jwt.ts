@@ -11,12 +11,13 @@ function generateToken(payload: object) {
   }
 }
 
-const validateToken = (token: string) => {
+const validateToken = (token: string | undefined) => {
+  if (!token) return { status: 401, response: 'Token not found' };
   try {
-    const validation = jwt.verify(token, password);
-    return validation as jwt.JwtPayload;
+    const payload = jwt.verify(token, password);
+    return payload as jwt.JwtPayload;
   } catch (error) {
-    return null;
+    return { status: 401, response: 'Token must be a valid token' };
   }
 };
 
