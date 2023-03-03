@@ -5,10 +5,16 @@ import MatchService from '../services/MatchService';
 class MatchesController {
   private _matchSevice = new MatchService();
 
-  async getAllMatches(_req: Request, res: Response): Promise<void> {
-    const { status, response } = await this._matchSevice.getAll();
-    console.log('AAA', response);
-    res.status(status).json(response);
+  async getAllMatches(req: Request, res: Response) {
+    const result = await this._matchSevice.getAll();
+    const { inProgress } = req.query;
+    if (inProgress) {
+      const inProgressBool = (JSON.parse(inProgress as string));
+      return res.status(200).json(result
+        .filter((item) => item.inProgress === inProgressBool));
+    }
+
+    res.status(200).json(result);
   }
 }
 

@@ -11,7 +11,7 @@ class MatchService {
         ],
       },
     );
-    return { status: 200, response: result };
+    return result;
   };
 }
 
