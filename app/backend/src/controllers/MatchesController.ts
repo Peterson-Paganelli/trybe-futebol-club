@@ -16,6 +16,14 @@ class MatchesController {
 
     res.status(200).json(result);
   }
+
+  async finishMatch(req: Request, res: Response) {
+    const { authorization } = req.headers;
+    const { id } = req.params;
+    const { status, response } = await this._matchSevice
+      .finishMatch((JSON.parse(id)), authorization);
+    res.status(status).json(response);
+  }
 }
 
 export default MatchesController;

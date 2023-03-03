@@ -1,3 +1,4 @@
+import { validateToken } from '../auth/jwt';
 import Teams from '../database/models/Teams';
 import Matches from '../database/models/Matches';
 
@@ -12,6 +13,21 @@ class MatchService {
       },
     );
     return result;
+  };
+
+  public finishMatch = async (
+    id: number,
+    token: string | undefined,
+  ) => {
+    const payload = validateToken(token);
+    if (payload.status) {
+      return {
+        status: payload.status,
+        response: { message: payload.response },
+      };
+    }
+    await Matches.update({ inProgress: false }, { where: { id } });
+    return { status: 200, response: { message: 'Finished' } };
   };
 }
 
