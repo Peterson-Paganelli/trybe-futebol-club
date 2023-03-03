@@ -1,6 +1,6 @@
 interface MatchesGoals {
-  homeTeamGoals: string,
-  awayTeamGoals: string
+  homeTeamGoals: number,
+  awayTeamGoals: number
 }
 
 export default MatchesGoals;

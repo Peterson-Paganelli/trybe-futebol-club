@@ -3,10 +3,10 @@ import { Request, Response } from 'express';
 import MatchService from '../services/MatchService';
 
 class MatchesController {
-  private _matchSevice = new MatchService();
+  private _matchService = new MatchService();
 
   async getAllMatches(req: Request, res: Response) {
-    const result = await this._matchSevice.getAll();
+    const result = await this._matchService.getAll();
     const { inProgress } = req.query;
     if (inProgress) {
       const inProgressBool = (JSON.parse(inProgress as string));
@@ -19,7 +19,7 @@ class MatchesController {
   async finishMatch(req: Request, res: Response) {
     const { authorization } = req.headers;
     const { id } = req.params;
-    const { status, response } = await this._matchSevice
+    const { status, response } = await this._matchService
       .finishMatch((JSON.parse(id)), authorization);
     res.status(status).json(response);
   }
@@ -27,8 +27,14 @@ class MatchesController {
   async updateMatch(req: Request, res: Response) {
     const { authorization } = req.headers;
     const { id } = req.params;
-    const { status, response } = await this._matchSevice
+    const { status, response } = await this._matchService
       .updateMatch((JSON.parse(id)), authorization, req.body);
+    res.status(status).json(response);
+  }
+
+  async postMatch(req: Request, res: Response) {
+    const { authorization } = req.headers;
+    const { status, response } = await this._matchService.postMatch(authorization, req.body);
     res.status(status).json(response);
   }
 }

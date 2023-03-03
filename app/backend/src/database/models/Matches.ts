@@ -15,6 +15,7 @@ Matches.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   homeTeamId: {
     type: DataTypes.INTEGER,

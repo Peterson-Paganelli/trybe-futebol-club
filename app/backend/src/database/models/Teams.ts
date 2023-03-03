@@ -10,6 +10,7 @@ Teams.init({
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   teamName: {
     type: DataTypes.STRING(30),

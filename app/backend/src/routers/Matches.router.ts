@@ -8,5 +8,6 @@ const matchesController = new MatchesController();
 MatchesRouter.get('/', (req, res) => matchesController.getAllMatches(req, res));
 MatchesRouter.patch('/:id/finish', (req, res) => matchesController.finishMatch(req, res));
 MatchesRouter.patch('/:id', (req, res) => matchesController.updateMatch(req, res));
+MatchesRouter.post('/', (req, res) => matchesController.postMatch(req, res));
 
 export default MatchesRouter;
