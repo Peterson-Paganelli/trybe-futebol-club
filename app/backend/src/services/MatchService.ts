@@ -1,3 +1,4 @@
+import MatchesGoals from '../interfaces/Matches.interface';
 import { validateToken } from '../auth/jwt';
 import Teams from '../database/models/Teams';
 import Matches from '../database/models/Matches';
@@ -28,6 +29,26 @@ class MatchService {
     }
     await Matches.update({ inProgress: false }, { where: { id } });
     return { status: 200, response: { message: 'Finished' } };
+  };
+
+  public updateMatch = async (
+    id: number,
+    token: string | undefined,
+    teamsGoals: MatchesGoals,
+  ) => {
+    const payload = validateToken(token);
+    if (payload.status) {
+      return {
+        status: payload.status,
+        response: { message: payload.response },
+      };
+    }
+    const result = await Matches.update(
+      { homeTeamGoals: teamsGoals.homeTeamGoals,
+        awayTeamGoals: teamsGoals.awayTeamGoals },
+      { where: { id } },
+    );
+    return { status: 200, response: result[0] };
   };
 }
 
