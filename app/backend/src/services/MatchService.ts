@@ -48,14 +48,11 @@ class MatchService {
     id: number,
     token: string | undefined,
   ) => {
-    const payload = validateToken(token);
-    if (payload.status) {
-      return {
-        status: payload.status,
-        response: { message: payload.response },
-      };
-    }
+    const verifyToken = await this.verifyToken(token);
+    if (verifyToken.status) return verifyToken;
+
     await Matches.update({ inProgress: false }, { where: { id } });
+
     return { status: 200, response: { message: 'Finished' } };
   };
 
@@ -64,28 +61,28 @@ class MatchService {
     token: string | undefined,
     teamsGoals: MatchesGoals,
   ) => {
-    const payload = validateToken(token);
-    if (payload.status) {
-      return {
-        status: payload.status,
-        response: { message: payload.response },
-      };
-    }
+    const verifyToken = await this.verifyToken(token);
+    if (verifyToken.status) return verifyToken;
+
     const result = await Matches.update(
       { homeTeamGoals: teamsGoals.homeTeamGoals,
         awayTeamGoals: teamsGoals.awayTeamGoals,
       },
       { where: { id } },
     );
+
     return { status: 200, response: result[0] };
   };
 
   public postMatch = async (token: string | undefined, info: MatchPayload) => {
     const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = info;
+
     const verifyToken = await this.verifyToken(token);
     if (verifyToken.status) return verifyToken;
+
     const verifyTeams = await this.verifyTeams(homeTeamId, awayTeamId);
     if (verifyTeams.status) return verifyTeams;
+
     const result = await Matches.create(
       {
         homeTeamId,
