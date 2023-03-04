@@ -6,6 +6,32 @@ import Teams from '../database/models/Teams';
 import Matches from '../database/models/Matches';
 
 class MatchService {
+  protected verifyTeams = async (homeTeamId: number, awayTeamId: number) => {
+    if (homeTeamId === awayTeamId) {
+      return { status: 422,
+        response: {
+          message: 'It is not possible to create a match with two equal teams',
+        } };
+    }
+    const homeTeam = await Teams.findOne({ where: { id: homeTeamId } });
+    const awayTeam = await Teams.findOne({ where: { id: awayTeamId } });
+    if (!homeTeam || !awayTeam) {
+      return { status: 404, response: { message: 'There is no team with such id!' } };
+    }
+    return { message: 'successful' };
+  };
+
+  protected verifyToken = async (token: string | undefined) => {
+    const payload = validateToken(token);
+    if (payload.status) {
+      return {
+        status: payload.status,
+        response: { message: payload.response },
+      };
+    }
+    return { message: 'successful' };
+  };
+
   public getAll = async () => {
     const result = await Matches.findAll(
       {
@@ -55,16 +81,11 @@ class MatchService {
   };
 
   public postMatch = async (token: string | undefined, info: MatchPayload) => {
-    const payload = validateToken(token);
-    if (payload.status) {
-      return {
-        status: payload.status,
-        response: { message: payload.response },
-      };
-    }
-
     const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = info;
-
+    const verifyToken = await this.verifyToken(token);
+    if (verifyToken.status) return verifyToken;
+    const verifyTeams = await this.verifyTeams(homeTeamId, awayTeamId);
+    if (verifyTeams.status) return verifyTeams;
     const result = await Matches.create(
       {
         homeTeamId,
