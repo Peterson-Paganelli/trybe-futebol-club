@@ -2,6 +2,7 @@ import MatchPayload from '../interfaces/MatchUpdate.interface';
 import MatchesGoals from '../interfaces/Matches.interface';
 
 import { validateToken } from '../auth/jwt';
+
 import Teams from '../database/models/Teams';
 import Matches from '../database/models/Matches';
 
