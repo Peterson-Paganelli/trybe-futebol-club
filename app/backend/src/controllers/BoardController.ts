@@ -9,6 +9,11 @@ class BoardController {
     const result = await this._boardService.getInfo('homeTeamId');
     return res.status(200).json(result);
   }
+
+  async getAwayInfo(req: Request, res: Response) {
+    const result = await this._boardService.getInfo('awayTeamId');
+    return res.status(200).json(result);
+  }
 }
 
 export default BoardController;
