@@ -1,4 +1,4 @@
-// import Leaderboard from '../interfaces/Leaderboard.interface';
+import Leaderboard from '../interfaces/Leaderboard.interface';
 import GetTeamInfo from '../utils/getTeamInfo';
 import Teams from '../database/models/Teams';
 
@@ -18,10 +18,10 @@ class BoardService {
     return result;
   };
 
-  public getAllInfo = async () => {
+  public getAllInfo = async (): Promise<Leaderboard[]> => {
     const homeTeams = await this.teamsResolve('homeTeamId');
     const awayTeams = await this.teamsResolve('awayTeamId');
-    const data = await this._getInfo.getAllTeamInfo(homeTeams, awayTeams);
+    const data = this._getInfo.getAllTeamInfo(homeTeams, awayTeams);
     const result = this._getInfo.sortResult(data);
     return result;
   };
