@@ -46,6 +46,10 @@ class GetTeamInfo {
     return efficiency;
   };
 
+  private getAllEfficiency = (totalPoints: number, totalGames: number) => (
+    ((totalPoints / (totalGames * 3)) * 100)
+  ).toFixed(2);
+
   public sortResult = (teamsData: any) => {
     const sortedData = teamsData.sort((a: any, b: any) => (b.totalPoints - a.totalPoints)
       || (b.goalsBalance - a.goalsBalance)
@@ -75,6 +79,25 @@ class GetTeamInfo {
     };
     return teamInfo;
   };
+
+  public getAllTeamInfo = (homeTeams: any, awayTeams: any) => homeTeams.map((team: any) => {
+    const awayTeam = awayTeams.find((away: any) => away.name === team.name);
+    return {
+      name: team.name,
+      totalPoints: team.totalPoints + awayTeam.totalPoints,
+      totalGames: team.totalGames + awayTeam.totalGames,
+      totalVictories: team.totalVictories + awayTeam.totalVictories,
+      totalDraws: team.totalDraws + awayTeam.totalDraws,
+      totalLosses: team.totalLosses + awayTeam.totalLosses,
+      goalsFavor: team.goalsFavor + awayTeam.goalsFavor,
+      goalsOwn: team.goalsOwn + awayTeam.goalsOwn,
+      goalsBalance: team.goalsBalance + awayTeam.goalsBalance,
+      efficiency: this.getAllEfficiency(
+        (team.totalPoints + awayTeam.totalPoints),
+        (team.totalGames + awayTeam.totalGames),
+      ),
+    };
+  });
 }
 
 export default GetTeamInfo;

@@ -14,12 +14,16 @@ class BoardService {
   };
 
   public getInfo = async (path: string) => {
-    const result = this.teamsResolve(path);
+    const result = await this.teamsResolve(path);
     return result;
   };
 
   public getAllInfo = async () => {
-    // const teams = await Teams.findAll();
+    const homeTeams = await this.teamsResolve('homeTeamId');
+    const awayTeams = await this.teamsResolve('awayTeamId');
+    const data = await this._getInfo.getAllTeamInfo(homeTeams, awayTeams);
+    const result = this._getInfo.sortResult(data);
+    return result;
   };
 }
 
