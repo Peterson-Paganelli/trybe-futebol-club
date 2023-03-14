@@ -53,7 +53,6 @@ describe('Teste de integração da rota /login', function () {
   it('testa o endpoint POST sem um email', async function () {
     chaiHttpResponse = await chai.request(app)
       .post('/login').send({});
-
       expect(chaiHttpResponse.status).to.be.equal(400);
   });
 
@@ -62,7 +61,6 @@ describe('Teste de integração da rota /login', function () {
     expect(response.status).to.be.equal(200)
     expect(response.body).to.deep.equal({"role": "admin"});
   });
-
   it('Retorna um erro ao passar um token errado', async function () {
     const response = await chai.request(app).get("/login/role").set({ 'Authorization': tokenMock.wrongToken });
     expect(response.status).to.be.equal(401)
