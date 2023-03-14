@@ -7,7 +7,7 @@ import { app } from '../app';
 import { Response } from 'superagent';
 chai.use(chaiHttp);
 const { expect } = chai;
-import { userMock, roleMock, tokenMock } from './users/login.mock';
+import { userMock, tokenMock } from './users/login.mock';
 import Users from '../database/models/Users';
 
 describe('Teste de integração da rota /login', function () {
@@ -21,7 +21,6 @@ describe('Teste de integração da rota /login', function () {
   });
 
   it('testa o endpoint POST com credenciais válidas', async function () {
-    // sinon.stub(bcryptjs, 'compareSync').returns(true);
     chaiHttpResponse = await chai.request(app)
       .post('/login').send({
         "email": "admin@admin.com",
@@ -39,6 +38,23 @@ describe('Teste de integração da rota /login', function () {
       });
 
       expect(chaiHttpResponse.status).to.be.equal(401);
+  });
+
+  it('testa o endpoint POST sem credenciais', async function () {
+    chaiHttpResponse = await chai.request(app)
+      .post('/login').send({
+        "email": "",
+        "password": "insecret_admin"
+      });
+
+      expect(chaiHttpResponse.status).to.be.equal(400);
+  });
+
+  it('testa o endpoint POST sem um email', async function () {
+    chaiHttpResponse = await chai.request(app)
+      .post('/login').send({});
+
+      expect(chaiHttpResponse.status).to.be.equal(400);
   });
 
   it('Retorna status 200 ao acessar a rota /login/role com token certo ', async function () {
