@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 const Scoreboard = ({ homeTeam, score, setScore, qtyGoal, testId }) => (
   <label htmlFor={ (homeTeam) ? 'home-team-scoreboard' : 'away-team-scoreboard' }>
     <p>Gols</p>
+    {console.log(score)}
     <input
       data-testid={ testId }
       type="number"
@@ -24,7 +25,7 @@ Scoreboard.propTypes = {
   homeTeam: PropTypes.bool.isRequired,
   score: PropTypes.number,
   setScore: PropTypes.func.isRequired,
-  qtyGoal: PropTypes.string,
+  qtyGoal: PropTypes.number,
   testId: PropTypes.string.isRequired,
 };
 

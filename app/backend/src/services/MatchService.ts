@@ -77,7 +77,7 @@ class MatchService {
 
   public postMatch = async (token: string | undefined, info: MatchPayload) => {
     const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = info;
-
+    console.log(homeTeamGoals);
     const verifyToken = await this.verifyToken(token);
     if (verifyToken.status) return verifyToken;
 
