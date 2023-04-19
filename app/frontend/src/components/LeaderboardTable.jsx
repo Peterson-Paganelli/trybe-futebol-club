@@ -40,7 +40,7 @@ const LeaderboardTable = ({ currentFilter }) => {
   if (!leaderboard.length) {
     return (<Loading />);
   }
-
+  
   return (
     <section className="score-board-table-section">
       <table className="score-board-table">

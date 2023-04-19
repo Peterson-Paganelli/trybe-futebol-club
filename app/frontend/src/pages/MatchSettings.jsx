@@ -10,8 +10,8 @@ import '../styles/pages/matchSettings.css';
 
 const MatchSettings = () => {
   const [teams, setTeams] = useState([]);
-  const [homeTeamScoreboard, setHomeTeamScoreboard] = useState(0);
-  const [awayTeamScoreboard, setAwayTeamScoreboard] = useState(0);
+  const [homeTeamScoreboard, setHomeTeamScoreboard] = useState('0');
+  const [awayTeamScoreboard, setAwayTeamScoreboard] = useState('0');
   const [homeTeamId, setHomeTeamId] = useState(0);
   const [awayTeamId, setAwayTeamId] = useState(0);
   const [isAuthenticated, setIsAuthenticated] = useState(false);

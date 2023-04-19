@@ -17,6 +17,7 @@ class MatchesController {
   }
 
   async finishMatch(req: Request, res: Response) {
+    console.log('B');
     const { authorization } = req.headers;
     const { id } = req.params;
     const { status, response } = await this._matchService
@@ -33,8 +34,9 @@ class MatchesController {
   }
 
   async postMatch(req: Request, res: Response) {
-    const { authorization } = req.headers;
-    const { status, response } = await this._matchService.postMatch(authorization, req.body);
+    // const { authorization } = req.headers;
+    const { status, response } = await this._matchService
+      .postMatch(req.body);
     res.status(status).json(response);
   }
 }

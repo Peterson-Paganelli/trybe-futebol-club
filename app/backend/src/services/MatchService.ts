@@ -75,14 +75,16 @@ class MatchService {
     return { status: 200, response: result[0] };
   };
 
-  public postMatch = async (token: string | undefined, info: MatchPayload) => {
+  public postMatch = async (info: MatchPayload) => {
     const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = info;
-    console.log(homeTeamGoals);
-    const verifyToken = await this.verifyToken(token);
-    if (verifyToken.status) return verifyToken;
-
+    // const verifyToken = await this.verifyToken(token);
+    // if (verifyToken.status) return verifyToken;
     const verifyTeams = await this.verifyTeams(homeTeamId, awayTeamId);
-    if (verifyTeams.status) return verifyTeams;
+
+    if (verifyTeams.status) {
+      console.log('D');
+      return verifyTeams;
+    }
 
     const result = await Matches.create(
       {
@@ -93,7 +95,7 @@ class MatchService {
         inProgress: true,
       },
     );
-
+    console.log('Result: ', result);
     return { status: 201, response: result };
   };
 }
